@@ -1,7 +1,11 @@
-﻿internal class Testing
+﻿using DiceGame;
+
+internal class Testing
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        SevensOut dog = new SevensOut();
+        Console.WriteLine($"Sevens Out finished with a total of {dog.Roll()}");
+        Console.ReadLine();
     }
 }

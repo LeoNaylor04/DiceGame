@@ -1,11 +1,11 @@
 ﻿namespace DiceGame
 {     internal class Die
     {
-        private int _Value = 0;
+        private int _value = 0;
         public int value 
         { 
-            get { return _Value; } 
-            set {  _Value = value; } 
+            get { return _value; } 
+            set {  _value = value; } 
         }
         public int Roll()
         {

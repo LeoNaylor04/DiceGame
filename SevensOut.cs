@@ -8,5 +8,39 @@ namespace DiceGame
 {
     internal class SevensOut
     {
+        private int _total = 0;
+        public int total 
+        { 
+            get { return _total; } 
+            set { _total = value; } 
+        }
+        public int Roll()
+        {
+            while (true)
+            {
+                Die die = new Die();
+                die.value = die.Roll();
+                Console.WriteLine($"You rolled a {die.value}");
+                int tempTotal = die.value;
+                die.value = die.Roll();
+                Console.WriteLine($"You rolled a {die.value}");
+                if (tempTotal == die.value)
+                {
+                    Console.WriteLine("You rolled a double! ");
+                    total = total + 2 * (tempTotal + die.value);
+                }
+                else
+                {
+                    total = total + tempTotal + die.value;
+                }
+                if (tempTotal + die.value == 7)
+                {
+                    return total;
+                }
+                Console.WriteLine("");
+            }
+
+        }
+
     }
 }
