@@ -71,6 +71,7 @@ namespace DiceGame
         }
         public int Play()
         {
+            score = 0;
             return RollCount(Roll(5));
         }
     }

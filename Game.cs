@@ -20,10 +20,12 @@ namespace DiceGame
         }
         private static void Main(string[] args)
         {
+            Statistics gameStatistics = new Statistics();
+            gameStatistics.OpenFile();
+            SevensOut gameSevensOut = new SevensOut();
+            ThreeOrMore gameThreeOrMore = new ThreeOrMore();
             while (true)
             {
-                Statistics gameStatistics = new Statistics();
-                gameStatistics.OpenFile();
                 int score;
                 string selection = ChooseGame();
                 if (selection=="1")
@@ -32,7 +34,6 @@ namespace DiceGame
                 }
                 if (selection == "2")
                 {
-                    SevensOut gameSevensOut = new SevensOut();
                     score = gameSevensOut.Roll();
                     Console.WriteLine($"Sevens Out Finished with a score of {score}");
                     gameStatistics.sevensOut[0] = gameStatistics.sevensOut[0] + score;
@@ -44,7 +45,6 @@ namespace DiceGame
                 }
                 if (selection == "3")
                 {
-                    ThreeOrMore gameThreeOrMore = new ThreeOrMore();
                     score = gameThreeOrMore.Play();
                     Console.WriteLine($"Three or More Finished with a score of {score}");
                     gameStatistics.threeOrMore[0] = gameStatistics.threeOrMore[0] + score;

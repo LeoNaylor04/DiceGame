@@ -16,6 +16,7 @@ namespace DiceGame
         }
         public int Roll()
         {
+            total = 0;
             while (true)
             {
                 Die die = new Die();
