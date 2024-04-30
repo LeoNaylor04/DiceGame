@@ -16,6 +16,8 @@ namespace DiceGame
             Console.WriteLine("2. Sevens Out");
             Console.WriteLine("3. Three or More");
             Console.WriteLine("4. Save and Exit");
+            Console.WriteLine("5. Testing");
+            Console.WriteLine("");
             return Console.ReadLine(); 
         }
         private static void Main(string[] args)
@@ -24,6 +26,7 @@ namespace DiceGame
             gameStatistics.OpenFile();
             SevensOut gameSevensOut = new SevensOut();
             ThreeOrMore gameThreeOrMore = new ThreeOrMore();
+            Testing gameTesting = new Testing();
             while (true)
             {
                 int score;
@@ -36,6 +39,7 @@ namespace DiceGame
                 {
                     score = gameSevensOut.Roll();
                     Console.WriteLine($"Sevens Out Finished with a score of {score}");
+                    Console.WriteLine("");
                     gameStatistics.sevensOut[0] = gameStatistics.sevensOut[0] + score;
                     gameStatistics.sevensOut[1]++;
                     if (score > gameStatistics.sevensOut[2])
@@ -47,6 +51,7 @@ namespace DiceGame
                 {
                     score = gameThreeOrMore.Play();
                     Console.WriteLine($"Three or More Finished with a score of {score}");
+                    Console.WriteLine("");
                     gameStatistics.threeOrMore[0] = gameStatistics.threeOrMore[0] + score;
                     gameStatistics.threeOrMore[1]++;
                     if (score > gameStatistics.threeOrMore[2])
@@ -58,6 +63,10 @@ namespace DiceGame
                 {
                     gameStatistics.SaveStats();
                     break;
+                }
+                if (selection == "5")
+                {
+
                 }
             }
         }

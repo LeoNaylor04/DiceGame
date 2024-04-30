@@ -17,9 +17,9 @@ namespace DiceGame
         public int Roll()
         {
             total = 0;
+            Die die = new Die();
             while (true)
             {
-                Die die = new Die();
                 die.value = die.Roll();
                 Console.WriteLine($"You rolled a {die.value}");
                 int tempTotal = die.value;
@@ -39,6 +39,7 @@ namespace DiceGame
                     return total;
                 }
                 Console.WriteLine("");
+                Thread.Sleep(1000);
             }
 
         }

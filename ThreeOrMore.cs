@@ -34,6 +34,8 @@ namespace DiceGame
             int highestIndex = 0;
             for (i = 0; i < 6; i++)
             {
+                Thread.Sleep(300);
+                Console.WriteLine($"You Rolled {count[i]} {i}'s");
                 if (count[i] > highest)
                 {
                     highest = count[i];
@@ -54,7 +56,9 @@ namespace DiceGame
             } // checks for highest count
             if (highest == 2)
             {
+                Console.WriteLine("");
                 Console.WriteLine("Only scored a 2 of a kind, would you like to re-roll all (A) or all remaining (R) die?");
+                Console.WriteLine("");
                 string rollChoice = Console.ReadLine();
                 if (rollChoice == "A")
                 {
