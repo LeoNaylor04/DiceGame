@@ -27,15 +27,15 @@ namespace DiceGame
             }
             return count;
         }
-        private int RollCount(int[] count)
+        private int RollCount(int[] count, bool automatic)
         {
             int i;
             int highest = count[0];
             int highestIndex = 0;
             for (i = 0; i < 6; i++)
             {
-                Thread.Sleep(300);
-                Console.WriteLine($"You Rolled {count[i]} {i}'s");
+                Thread.Sleep(200);
+                Console.WriteLine($"You Rolled {count[i]} {i+1}'s");
                 if (count[i] > highest)
                 {
                     highest = count[i];
@@ -56,27 +56,35 @@ namespace DiceGame
             } // checks for highest count
             if (highest == 2)
             {
-                Console.WriteLine("");
-                Console.WriteLine("Only scored a 2 of a kind, would you like to re-roll all (A) or all remaining (R) die?");
-                Console.WriteLine("");
-                string rollChoice = Console.ReadLine();
-                if (rollChoice == "A")
+                if (!automatic)
                 {
-                    return RollCount(Roll(5));
+                    Console.WriteLine("");
+                    Console.WriteLine("Only scored a 2 of a kind, would you like to re-roll all (A) or all remaining (R) die?");
+                    Console.WriteLine("");
+                    string rollChoice = Console.ReadLine();
+                    if (rollChoice == "A")
+                    {
+                        return RollCount(Roll(5), false);
+                    }
+                    else if (rollChoice == "R")
+                    {
+                        int[] tempArray = Roll(3);
+                        tempArray[highestIndex] = tempArray[highestIndex] + 2;
+                        return RollCount(tempArray, false);
+                    }
                 }
-                else if (rollChoice == "R")
+                else if (automatic)
                 {
-                    int[] tempArray = Roll(3);
-                    tempArray[highestIndex] = tempArray[highestIndex] + 2;
-                    return RollCount(tempArray);
+                    Console.WriteLine("");
+                    return RollCount(Roll(5), true);
                 }
             }
             return score;
         }
-        public int Play()
+        public int Play(bool automatic)
         {
             score = 0;
-            return RollCount(Roll(5));
+            return RollCount(Roll(5), automatic);
         }
     }
 }

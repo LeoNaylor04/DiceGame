@@ -30,20 +30,32 @@ namespace DiceGame
         private static void SevensOutPlay(Statistics gameStatistics, SevensOut sevensOutPlayer, string player2)
         {
             Console.WriteLine("Player 1's Turn");
-            int playerScore1 = sevensOutPlayer.Roll();
+            int playerScore1 = sevensOutPlayer.Roll(false);
             Console.WriteLine($"Player 1 finished Sevens Out with a score of {playerScore1}");
             Console.WriteLine("");
             Console.WriteLine($"{player2}'s Turn");
-            int playerScore2 = sevensOutPlayer.Roll();
+            int playerScore2 = 0;
+            if (player2 == "Computer")
+            {
+                playerScore2 = sevensOutPlayer.Roll(true);
+            }
+            else if (player2 == "Player 2")
+            {
+                playerScore2 = sevensOutPlayer.Roll(false);
+            }
             Console.WriteLine($"{player2} finished Sevens Out with a score of {playerScore2}");
             Console.WriteLine("");
             if (playerScore1 > playerScore2)
             {
                 SevensOutWinMessage(gameStatistics, "Player 1", playerScore1);
             }
-            else if (playerScore1 > playerScore2)
+            else if (playerScore2 > playerScore1)
             {
                 SevensOutWinMessage(gameStatistics, player2, playerScore2);
+            }
+            else
+            {
+                Console.WriteLine("Tie Game");
             }
         }
         private static void SevensOutWinMessage(Statistics gameStatistics, string identity, int score)
@@ -60,20 +72,32 @@ namespace DiceGame
         private static void ThreeOrMorePlay(Statistics gameStatistics, ThreeOrMore threeOrMorePlayer, string player2)
         {
             Console.WriteLine("Player 1's Turn");
-            int playerScore1 = threeOrMorePlayer.Play();
+            int playerScore1 = threeOrMorePlayer.Play(false);
             Console.WriteLine($"Player 1 finished Sevens Out with a score of {playerScore1}");
             Console.WriteLine("");
             Console.WriteLine($"{player2}'s Turn");
-            int playerScore2 = threeOrMorePlayer.Play();
+            int playerScore2 = 0;
+            if (player2 == "Computer")
+            {
+                playerScore2 = threeOrMorePlayer.Play(true);
+            }
+            else if (player2 == "Player 2")
+            {
+                playerScore2 = threeOrMorePlayer.Play(false);
+            }
             Console.WriteLine($"{player2} finished Sevens Out with a score of {playerScore2}");
             Console.WriteLine("");
             if (playerScore1 > playerScore2)
             {
                 ThreeOrMoreWinMessage(gameStatistics, "Player 1", playerScore1);
             }
-            else if (playerScore1 > playerScore2)
+            else if (playerScore2 > playerScore1)
             {
                 ThreeOrMoreWinMessage(gameStatistics, player2, playerScore2);
+            }
+            else
+            {
+                Console.WriteLine("Tie Game!");
             }
         }
         private static void ThreeOrMoreWinMessage(Statistics gameStatistics, string identity, int score)

@@ -14,12 +14,22 @@ namespace DiceGame
             get { return _total; } 
             set { _total = value; } 
         }
-        public int Roll()
+        public int Roll(bool automatic)
         {
             total = 0;
             Die die = new Die();
             while (true)
             {
+                if (automatic)
+                {
+                    Console.WriteLine("");
+                    Thread.Sleep(1000);
+                }
+                else if (!automatic)
+                {
+                    Console.WriteLine("Press Enter to Roll...");
+                    Console.ReadLine();
+                }
                 die.value = die.Roll();
                 Console.WriteLine($"You rolled a {die.value}");
                 int tempTotal = die.value;
@@ -38,11 +48,7 @@ namespace DiceGame
                 {
                     return total;
                 }
-                Console.WriteLine("");
-                Thread.Sleep(1000);
             }
-
         }
-
     }
 }
