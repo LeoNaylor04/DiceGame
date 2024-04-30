@@ -30,18 +30,18 @@ namespace DiceGame
         private static void SevensOutPlay(Statistics gameStatistics, SevensOut sevensOutPlayer, string player2)
         {
             Console.WriteLine("Player 1's Turn");
-            int playerScore1 = sevensOutPlayer.Roll(false);
+            int playerScore1 = sevensOutPlayer.Roll(false, 1000);
             Console.WriteLine($"Player 1 finished Sevens Out with a score of {playerScore1}");
             Console.WriteLine("");
             Console.WriteLine($"{player2}'s Turn");
             int playerScore2 = 0;
             if (player2 == "Computer")
             {
-                playerScore2 = sevensOutPlayer.Roll(true);
+                playerScore2 = sevensOutPlayer.Roll(true, 1000);
             }
             else if (player2 == "Player 2")
             {
-                playerScore2 = sevensOutPlayer.Roll(false);
+                playerScore2 = sevensOutPlayer.Roll(false, 1000);
             }
             Console.WriteLine($"{player2} finished Sevens Out with a score of {playerScore2}");
             Console.WriteLine("");
@@ -95,22 +95,40 @@ namespace DiceGame
         }
         private static void ThreeOrMorePlay(Statistics gameStatistics, ThreeOrMore threeOrMorePlayer, string player2)
         {
-            Console.WriteLine("Player 1's Turn");
-            int playerScore1 = threeOrMorePlayer.Play(false);
-            Console.WriteLine($"Player 1 finished Sevens Out with a score of {playerScore1}");
-            Console.WriteLine("");
-            Console.WriteLine($"{player2}'s Turn");
             int playerScore2 = 0;
-            if (player2 == "Computer")
+            int playerScore1 = 0;
+            int tempScore = 0;
+            while (true)
             {
-                playerScore2 = threeOrMorePlayer.Play(true);
+                Console.WriteLine("Player 1's Turn");
+                tempScore = threeOrMorePlayer.Play(false, 200);
+                Console.WriteLine($"Player 1 finished their turn with a score of {tempScore}");
+                playerScore1 += tempScore;
+                if (playerScore2 >= 20)
+                {
+                    break;
+                }
+                Console.WriteLine("");
+                Console.WriteLine($"{player2}'s Turn");
+
+                if (player2 == "Computer")
+                {
+                    tempScore = threeOrMorePlayer.Play(true, 200);
+                }
+                else if (player2 == "Player 2")
+                {
+                    tempScore = threeOrMorePlayer.Play(false, 200);
+                }
+                Console.WriteLine($"{player2} finished their turn with a score of {tempScore}");
+                playerScore2+= tempScore;
+                if (playerScore2 >= 20)
+                {
+                    break;
+                }
+                Console.WriteLine("");
+                Console.WriteLine($"Current score is Player 1: {playerScore1} {player2}:{playerScore2}");
+                Console.WriteLine("");
             }
-            else if (player2 == "Player 2")
-            {
-                playerScore2 = threeOrMorePlayer.Play(false);
-            }
-            Console.WriteLine($"{player2} finished Sevens Out with a score of {playerScore2}");
-            Console.WriteLine("");
             if (playerScore1 > playerScore2)
             {
                 ThreeOrMoreWinMessage(gameStatistics, "Player 1", playerScore1);
@@ -204,7 +222,8 @@ namespace DiceGame
                 }
                 if (selection == "5")
                 {
-
+                    gameTesting.TestSevensOut(1000);
+                    gameTesting.TestThreeOrMore(1000);
                 }
             }
         }

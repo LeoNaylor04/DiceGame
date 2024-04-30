@@ -14,7 +14,7 @@ namespace DiceGame
             get { return _total; } 
             set { _total = value; } 
         }
-        public int Roll(bool automatic)
+        public int Roll(bool automatic, int timer)
         {
             total = 0;
             Die die = new Die();
@@ -23,7 +23,7 @@ namespace DiceGame
                 if (automatic)
                 {
                     Console.WriteLine("");
-                    Thread.Sleep(1000);
+                    Thread.Sleep(timer);
                 }
                 else if (!automatic)
                 {

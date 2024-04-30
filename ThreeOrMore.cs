@@ -27,14 +27,14 @@ namespace DiceGame
             }
             return count;
         }
-        private int RollCount(int[] count, bool automatic)
+        private int RollCount(int[] count, bool automatic, int timer)
         {
             int i;
             int highest = count[0];
             int highestIndex = 0;
             for (i = 0; i < 6; i++)
             {
-                Thread.Sleep(200);
+                Thread.Sleep(timer);
                 Console.WriteLine($"You Rolled {count[i]} {i+1}'s");
                 if (count[i] > highest)
                 {
@@ -64,27 +64,27 @@ namespace DiceGame
                     string rollChoice = Console.ReadLine();
                     if (rollChoice == "A")
                     {
-                        return RollCount(Roll(5), false);
+                        return RollCount(Roll(5), false, 200);
                     }
                     else if (rollChoice == "R")
                     {
                         int[] tempArray = Roll(3);
                         tempArray[highestIndex] = tempArray[highestIndex] + 2;
-                        return RollCount(tempArray, false);
+                        return RollCount(tempArray, false, 200);
                     }
                 }
                 else if (automatic)
                 {
                     Console.WriteLine("");
-                    return RollCount(Roll(5), true);
+                    return RollCount(Roll(5), true, 200);
                 }
             }
             return score;
         }
-        public int Play(bool automatic)
+        public int Play(bool automatic, int timer)
         {
             score = 0;
-            return RollCount(Roll(5), automatic);
+            return RollCount(Roll(5), automatic, timer);
         }
     }
 }
