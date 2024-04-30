@@ -24,14 +24,13 @@ namespace DiceGame
             StreamReader statsFile = new StreamReader(filePath);
             string statsLine = statsFile.ReadLine();
             string[] statsArray = statsLine.Split(" ");
-            int[] statsData = new int[6];
             for (int i = 0; i < 3; i++)
             {
                 threeOrMore[i] = int.Parse(statsArray[i]);
             }
             for (int i = 0; i < 3; i++)
             {
-                sevensOut[i] = int.Parse(statsArray[i]);
+                sevensOut[i] = int.Parse(statsArray[3+i]);
             }
             statsFile.Close();
 
@@ -50,8 +49,14 @@ namespace DiceGame
                 if (sevensOut[1] == 0)
                 {
                     sevensOut[1] = 1;
+                    Console.WriteLine($"The Average Score is {sevensOut[0] / sevensOut[1]}");
+                    sevensOut[1] = 0;
                 }
-                Console.WriteLine($"The Average Score is {sevensOut[0] / sevensOut[1]}");
+                else
+                {
+                    Console.WriteLine($"The Average Score is {sevensOut[0] / sevensOut[1]}");
+                }
+                
             }
             if (gameName == "2")
             {
@@ -60,9 +65,24 @@ namespace DiceGame
                 if (threeOrMore[1] == 0)
                 {
                     threeOrMore[1] = 1;
+                    Console.WriteLine($"The Average Score is {threeOrMore[0] / threeOrMore[1]}");
+                    threeOrMore[1] = 0;
                 }
-                Console.WriteLine($"The Average Score is {threeOrMore[0] / threeOrMore[1]}");
+                else
+                {
+                    Console.WriteLine($"The Average Score is {threeOrMore[0] / threeOrMore[1]}");
+                }
             }
+        }
+
+        public void SaveStats()
+        {
+            string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("bin\\Debug\\net8.0", "Stats.txt");
+            StreamWriter statsFile = new StreamWriter(filePath);
+            string fileLine = $"{threeOrMore[0]} {threeOrMore[1]} {threeOrMore[2]} {sevensOut[0]} {sevensOut[1]} {sevensOut[2]}";
+            statsFile.WriteLine(fileLine);
+            statsFile.Close();
+
         }
     }
 }

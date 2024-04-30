@@ -15,7 +15,7 @@ namespace DiceGame
             Console.WriteLine("1. Statistics");
             Console.WriteLine("2. Sevens Out");
             Console.WriteLine("3. Three or More");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. Save and Exit");
             return Console.ReadLine(); 
         }
         private static void Main(string[] args)
@@ -56,6 +56,7 @@ namespace DiceGame
                 }
                 if (selection == "4")
                 {
+                    gameStatistics.SaveStats();
                     break;
                 }
             }
