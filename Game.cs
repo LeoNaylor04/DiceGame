@@ -56,6 +56,9 @@ namespace DiceGame
             else
             {
                 Console.WriteLine("Tie Game");
+                gameStatistics.sevensOut[0] = gameStatistics.sevensOut[0] + playerScore1;
+                gameStatistics.sevensOut[1]++;
+                Console.WriteLine("");
             }
         }
         private static void SevensOutWinMessage(Statistics gameStatistics, string identity, int score)
@@ -63,9 +66,30 @@ namespace DiceGame
             Console.WriteLine($"{identity} wins with a score of {score}!");
             gameStatistics.sevensOut[0] = gameStatistics.sevensOut[0] + score;
             gameStatistics.sevensOut[1]++;
-            if (score > gameStatistics.sevensOut[2])
+            if (identity != "Computer")
             {
-                gameStatistics.sevensOut[2] = score;
+                while (true)
+                {
+                    Console.WriteLine("Enter your name to be added to the leaderboard");
+                    string name = Console.ReadLine();
+                    if (name != "")
+                    {
+                        string[] nameArray = name.Split(" ");
+                        if (nameArray.Length != 1)
+                        {
+                            Console.WriteLine("Name must be one word");
+                        }
+                        else
+                        {
+                            gameStatistics.AddToLeaderboard("SevensOutLeaderboard.txt", name, score);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a name");
+                    }
+                }
             }
             Console.WriteLine("");
         }
@@ -98,6 +122,9 @@ namespace DiceGame
             else
             {
                 Console.WriteLine("Tie Game!");
+                gameStatistics.threeOrMore[0] = gameStatistics.threeOrMore[0] + playerScore1;
+                gameStatistics.threeOrMore[1]++;
+                Console.WriteLine("");
             }
         }
         private static void ThreeOrMoreWinMessage(Statistics gameStatistics, string identity, int score)
@@ -105,9 +132,30 @@ namespace DiceGame
             Console.WriteLine($"{identity} wins with a score of {score}!");
             gameStatistics.threeOrMore[0] = gameStatistics.threeOrMore[0] + score;
             gameStatistics.threeOrMore[1]++;
-            if (score > gameStatistics.threeOrMore[2])
+            if (identity != "Computer")
             {
-                gameStatistics.threeOrMore[2] = score;
+                while (true)
+                {
+                    Console.WriteLine("Enter your name to be added to the leaderboard");
+                    string name = Console.ReadLine();
+                    if (name != "")
+                    {
+                        string[] nameArray = name.Split(" ");
+                        if (nameArray.Length != 1)
+                        {
+                            Console.WriteLine("Name must be one word");
+                        }
+                        else
+                        {
+                            gameStatistics.AddToLeaderboard("ThreeOrMoreLeaderboard.txt", name, score);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a name");
+                    }
+                }
             }
             Console.WriteLine("");
         }
