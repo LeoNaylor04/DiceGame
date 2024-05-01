@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,53 +9,43 @@ namespace DiceGame
 {
     internal class SevensOut : GameParent
     {
-        public SevensOut(string givenName, bool givenAuto, int givenTimer)
+        public SevensOut(bool auto, int timer) : base(auto, timer) { }
+        public int PlayGame()
         {
-            name = givenName;
-            auto = givenAuto;
-            timer = givenTimer;
-        }
-        private int _total = 0;
-        public int total 
-        { 
-            get { return _total; } 
-            set { _total = value; } 
-        }
-        public int Roll(bool automatic, int timer)
-        {
-            total = 0;
-            Die die = new Die();
             while (true)
             {
-                if (automatic)
+                RoundScore = 0;
+                if (Auto)
                 {
                     Console.WriteLine("");
-                    Thread.Sleep(timer);
+                    Thread.Sleep(Timer);
                 }
-                else if (!automatic)
+                else if (UserRolled()) { }
+                RoundScore = GameTurn();
+                Score += RoundScore;
+                if (RoundScore == 7)
                 {
-                    Console.WriteLine("Press Enter to Roll...");
-                    Console.ReadLine();
-                }
-                die.value = die.Roll();
-                Console.WriteLine($"You rolled a {die.value}");
-                int tempTotal = die.value;
-                die.value = die.Roll();
-                Console.WriteLine($"You rolled a {die.value}");
-                if (tempTotal == die.value)
-                {
-                    Console.WriteLine("You rolled a double! ");
-                    total = total + 2 * (tempTotal + die.value);
-                }
-                else
-                {
-                    total = total + tempTotal + die.value;
-                }
-                if (tempTotal + die.value == 7)
-                {
-                    return total;
+                    break;
                 }
             }
+            return Score;
+        }
+        private int GameTurn()
+        {
+            List<int> roll = DiceRoll(2);
+            IEnumerable<int> output = roll;
+            int total = 0;
+            foreach (int i in output)
+            {
+                Console.WriteLine($"You rolled a {i}");
+                total += i;
+            }
+            if (total - roll[0] == roll[1])
+            {
+                Console.WriteLine("You rolled a double! ");
+                return total * 2;
+            }
+            return total;
         }
     }
 }

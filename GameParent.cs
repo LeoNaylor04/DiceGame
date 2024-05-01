@@ -9,20 +9,19 @@ namespace DiceGame
     internal class GameParent
     {
         private int _score = 0;
-        private string _name;
+        private int _roundScore;
         private bool _auto;
         private int _timer;
-        public int score { get { return _score; } set { _score = value; }  }
-        public string name { get { return _name; } set { _name = value; } }
-        public bool auto { get { return _auto; } set { _auto = value; } }
-        public int timer { get { return _timer; } set { _timer = value; } }
-        public GameParent(string givenName, bool givenAuto, int givenTimer)
+        protected int Score { get; set; }
+        protected int RoundScore { get; set; }
+        protected bool Auto { get; set; }
+        protected int Timer { get; set; }
+        public GameParent(bool auto, int timer)
         {
-            _name = givenName;
-            _auto = givenAuto;
-            _timer = givenTimer;
+            Auto = auto;
+            Timer = timer;
         }
-        public List<int> DiceRoll(int dieAmount)
+        protected List<int> DiceRoll(int dieAmount)
         {
             Die die = new Die();
             List<int> diceRolls = new List<int>();
@@ -32,7 +31,7 @@ namespace DiceGame
             }
             return diceRolls;
         }
-        public bool UserRolled()
+        protected bool UserRolled()
         {
             Console.WriteLine("");
             Console.WriteLine("Press Enter to Roll...");
