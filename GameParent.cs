@@ -16,7 +16,7 @@ namespace DiceGame
         protected int Score1 { get; set; }
         protected int Score2 { get; set; }
         protected int RoundScore { get; set; }
-        protected bool Auto { get; set; }
+        public bool Auto { get; set; }
         protected int Timer { get; set; }
         public GameParent(bool auto, int timer)
         {
