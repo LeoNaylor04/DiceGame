@@ -5,10 +5,10 @@ namespace DiceGame
 {
     internal class Statistics
     {
-        private List<int> _threeOrMore = new() { 0,0};
-        private List<int> ThreeOrMore { get; set; }
-        private List<int> _sevensOut = new() { 0,0};
-        private List<int> SevensOut { get; set; }
+        private int[] _threeOrMore = {0, 0};
+        public int[] threeOrMore { get { return _threeOrMore; } set { _threeOrMore = value; } }
+        private int[] _sevensOut = {0, 0};
+        public int[] sevensOut { get { return _sevensOut; } set {_sevensOut=value; } }
         public void OpenFile()
         {
             string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("bin\\Debug\\net8.0","Stats.txt");
@@ -17,11 +17,11 @@ namespace DiceGame
             string[] statsArray = statsLine.Split(" ");
             for (int i = 0; i < 2; i++)
             {
-                ThreeOrMore[i] = int.Parse(statsArray[i]);
+                threeOrMore[i] = int.Parse(statsArray[i]);
             }
             for (int i = 0; i < 2; i++)
             {
-                SevensOut[i] = int.Parse(statsArray[2+i]);
+                sevensOut[i] = int.Parse(statsArray[2+i]);
             }
             statsFile.Close();
 
@@ -44,16 +44,16 @@ namespace DiceGame
 
             if (gameName == "1")
             {
-                Console.WriteLine($"The Number of Plays is {SevensOut[1]}");
-                if (SevensOut[1] == 0)
+                Console.WriteLine($"The Number of Plays is {sevensOut[1]}");
+                if (sevensOut[1] == 0)
                 {
-                    SevensOut[1] = 1;
-                    Console.WriteLine($"The Average Score is {SevensOut[0] / SevensOut[1]}");
-                    SevensOut[1] = 0;
+                    sevensOut[1] = 1;
+                    Console.WriteLine($"The Average Score is {sevensOut[0] / sevensOut[1]}");
+                    sevensOut[1] = 0;
                 }
                 else
                 {
-                    Console.WriteLine($"The Average Score is {SevensOut[0] / SevensOut[1]}");
+                    Console.WriteLine($"The Average Score is {sevensOut[0] / sevensOut[1]}");
                 }
                 Console.WriteLine("");
                 Console.WriteLine("High Scores:");
@@ -63,16 +63,16 @@ namespace DiceGame
             }
             if (gameName == "2")
             {
-                Console.WriteLine($"The Number of Plays is {ThreeOrMore[1]}");
-                if (ThreeOrMore[1] == 0)
+                Console.WriteLine($"The Number of Plays is {threeOrMore[1]}");
+                if (threeOrMore[1] == 0)
                 {
-                    ThreeOrMore[1] = 1;
-                    Console.WriteLine($"The Average Score is {ThreeOrMore[0] / ThreeOrMore[1]}");
-                    ThreeOrMore[1] = 0;
+                    threeOrMore[1] = 1;
+                    Console.WriteLine($"The Average Score is {threeOrMore[0] / threeOrMore[1]}");
+                    threeOrMore[1] = 0;
                 }
                 else
                 {
-                    Console.WriteLine($"The Average Score is {ThreeOrMore[0] / ThreeOrMore[1]}");
+                    Console.WriteLine($"The Average Score is {threeOrMore[0] / threeOrMore[1]}");
                 }
                 Console.WriteLine("");
                 Console.WriteLine("High Scores:");
@@ -84,7 +84,7 @@ namespace DiceGame
         {
             string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("bin\\Debug\\net8.0", "Stats.txt");
             StreamWriter statsFile = new StreamWriter(filePath);
-            string fileLine = $"{ThreeOrMore[0]} {ThreeOrMore[1]} {SevensOut[0]} {SevensOut[1]}";
+            string fileLine = $"{threeOrMore[0]} {threeOrMore[1]} {sevensOut[0]} {sevensOut[1]}";
             statsFile.WriteLine(fileLine);
             statsFile.Close();
 
@@ -152,14 +152,14 @@ namespace DiceGame
         }
         public void AddSevens(int score)
         {
-            SevensOut[0] += score;
-            SevensOut[1]++;
+            sevensOut[0] += score;
+            sevensOut[1]++;
             AddToScoreboard("SevensOutScoreBoard.txt", score);
         }
         public void AddThree(int score)
         {
-            ThreeOrMore[0] += score;
-            ThreeOrMore[1]++;
+            threeOrMore[0] += score;
+            threeOrMore[1]++;
             AddToScoreboard("ThreeOrMoreScoreboard.txt", score);
         }
     }
