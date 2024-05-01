@@ -12,8 +12,14 @@ namespace DiceGame
     internal class ThreeOrMore : GameParent, IPlayable
     {
         public ThreeOrMore(bool Auto, int Timer) : base(Auto, Timer) { }
+
+        public override void WelcomeMessage()
+        {
+            Console.WriteLine("Wlecome to Three or more!"); 
+        }
         public int PlayGame(bool computer)
         {
+            WelcomeMessage();
             Score1 = 0;
             Score2 = 0;
             while (true)

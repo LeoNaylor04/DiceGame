@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace DiceGame
 {
-    internal class SevensOut : GameParent, IPlayable
+    internal class SevensOut : GameParent
     {
         public SevensOut(bool auto, int timer) : base(auto, timer) { }
+        public override void WelcomeMessage()
+        {
+            Console.WriteLine("Welcome to Sevens Out");
+        }
         public int PlayGame(bool computer)
         {
+            WelcomeMessage();
             Score1 = 0;
             Score2 = 0;
             while (true)

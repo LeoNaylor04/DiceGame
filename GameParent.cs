@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,5 +45,6 @@ namespace DiceGame
             Console.ReadLine();
             return true;
         }
+        public abstract void WelcomeMessage();
     }
 }
