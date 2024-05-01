@@ -15,20 +15,38 @@ namespace DiceGame
             while (true)
             {
                 RoundScore = 0;
-                if (Auto)
-                {
-                    Console.WriteLine("");
-                    Thread.Sleep(Timer);
-                }
-                else if (UserRolled()) { }
+                if (UserRolled()) { }
                 RoundScore = GameTurn();
-                Score += RoundScore;
+                Score1 += RoundScore;
+                Console.WriteLine($"Player 1's score is {Score1}");
                 if (RoundScore == 7)
                 {
+                    Console.WriteLine($"Player 1 is out with a score of {Score1}");
                     break;
                 }
             }
-            return Score;
+            while (true)
+            {
+                RoundScore = 0;
+                if (Auto) { Thread.Sleep(Timer); }
+                else if (UserRolled()) { }
+                RoundScore = GameTurn();
+                Score1 += RoundScore;
+                Console.WriteLine($"Player 2's score is {Score1}");
+                if (RoundScore == 7)
+                {
+                    Console.WriteLine($"Player 2 is out with a score of {Score2}");
+                    break;
+                }
+            }
+            if (Score1>=Score2)
+            {
+                return Score1;
+            }
+            else
+            {
+                return Score2;
+            }
         }
         private int GameTurn()
         {

@@ -11,23 +11,23 @@ namespace DiceGame
 {
     internal class ThreeOrMore : GameParent
     {
-        private int _score2;
-        public int Score2 { get; set; }
         public ThreeOrMore(bool Auto, int Timer) : base(Auto, Timer) { }
         public int PlayGame()
         {
             while (true)
             {
-                Score += GameTurnTally(GameTurn(5));
+                Score1 += GameTurnTally(GameTurn(5));
+                Console.WriteLine($"Player 1's score is {Score1}");
                 Score2 += GameTurnTally(GameTurn(5));
-                if (Score>19)
+                Console.WriteLine($"Player 2's score is {Score2}");
+                if (Score1>19)
                 {
-                    Console.WriteLine("Player 1 Wins!");
-                    return Score;
+                    Console.WriteLine($"Player 1 Wins with a score of {Score1}!");
+                    return Score1;
                 }
                 if (Score2 > 19)
                 {
-                    Console.WriteLine("Player 2 Wins!");
+                    Console.WriteLine($"Player 2 Wins with a score of {Score2}!");
                     return Score2;
                 }
             }
