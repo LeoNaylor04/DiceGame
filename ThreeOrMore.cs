@@ -5,86 +5,81 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace DiceGame
 {
-    internal class ThreeOrMore
+    internal class ThreeOrMore : GameParent
     {
-        private int _score = 0;
-        public int score 
-        { 
-            get { return _score; } 
-            set { _score = value; } 
-        }
-        private int[] Roll(int dieAmount)
+        private int _score2;
+        public int Score2 { get; set; }
+        public ThreeOrMore(bool Auto, int Timer) : base(Auto, Timer) { }
+        public int PlayGame()
         {
-            int[] count = { 0, 0, 0, 0, 0, 0 };
-            int i;
-            Die die = new Die();
-            for (i = 0; i < dieAmount; i++)
+            while (true)
             {
-                count[die.Roll() - 1]++;
+                Score += GameTurnTally(GameTurn(5));
+                Score2 += GameTurnTally(GameTurn(5));
+                if (Score>19)
+                {
+                    Console.WriteLine("Player 1 Wins!");
+                    return Score;
+                }
+                if (Score2 > 19)
+                {
+                    Console.WriteLine("Player 2 Wins!");
+                    return Score2;
+                }
             }
-            return count;
         }
-        private int RollCount(int[] count, bool automatic, int timer)
+        private List<int> GameTurn(int dieAmount)
         {
-            int i;
-            int highest = count[0];
-            int highestIndex = 0;
-            for (i = 0; i < 6; i++)
+            if (Auto) { Thread.Sleep(Timer); }
+            if (UserRolled()) { }
+            List<int> roll = DiceRoll(dieAmount);
+            IEnumerable<int> output = roll;
+            List<int> tally = new() { 0, 0, 0, 0, 0, 0 };
+            foreach (int i in output)
             {
-                Thread.Sleep(timer);
-                Console.WriteLine($"You Rolled {count[i]} {i+1}'s");
-                if (count[i] > highest)
-                {
-                    highest = count[i];
-                    highestIndex = i;
-                }
-                if (count[i] == 5)
-                {
-                    score = score + 12;
-                }
-                else if (count[i] == 4)
-                {
-                    score = score + 6;
-                }
-                else if (count[i] == 3)
-                {
-                    score = score + 3;
-                }
-            } // checks for highest count
-            if (highest == 2)
+                Console.WriteLine($"You rolled a {i}");
+                tally[i - 1]++;
+            }
+            return tally;
+        }
+        private int GameTurnTally(List<int> tally)
+        {
+            RoundScore = 0;
+            int maximum = tally.Max();
+            int maximumIndex = tally.IndexOf(maximum);
+            Console.WriteLine($"You rolled a {maximum} of a kind");
+            if (maximum == 5) { RoundScore = 12; }
+            if (maximum == 4) { RoundScore = 6; }
+            if (maximum == 3) { RoundScore = 3; }
+            if (maximum == 2)
             {
-                if (!automatic)
+                if (!Auto)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("Only scored a 2 of a kind, would you like to re-roll all (A) or all remaining (R) die?");
+                    Console.WriteLine("You only rolled a 2 of a kind, would you like to re-roll all (A) or all remaining (R) die?");
                     Console.WriteLine("");
                     string rollChoice = Console.ReadLine();
                     if (rollChoice == "A")
                     {
-                        return RollCount(Roll(5), false, 200);
+                        return GameTurnTally(GameTurn(5));
                     }
                     else if (rollChoice == "R")
                     {
-                        int[] tempArray = Roll(3);
-                        tempArray[highestIndex] = tempArray[highestIndex] + 2;
-                        return RollCount(tempArray, false, 200);
+                        List<int> newTally = GameTurn(3);
+                        newTally[maximumIndex] = newTally[maximumIndex] + 2;
+                        return GameTurnTally(newTally);
                     }
                 }
-                else if (automatic)
+                else
                 {
-                    Console.WriteLine("");
-                    return RollCount(Roll(5), true, 200);
+                    return GameTurnTally(GameTurn(5));
                 }
             }
-            return score;
-        }
-        public int Play(bool automatic, int timer)
-        {
-            score = 0;
-            return RollCount(Roll(5), automatic, timer);
+            return RoundScore;
         }
     }
 }
