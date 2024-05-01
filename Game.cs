@@ -181,7 +181,7 @@ namespace DiceGame
         {
             Statistics gameStatistics = new Statistics();
             gameStatistics.OpenFile();
-            SevensOut sevensOutPlayer = new SevensOut();
+            SevensOut sevensOutPlayer = new SevensOut("die", false, 3);
             ThreeOrMore threeOrMorePlayer = new ThreeOrMore();
             Testing gameTesting = new Testing();
             while (true)

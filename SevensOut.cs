@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace DiceGame
 {
-    internal class SevensOut
+    internal class SevensOut : GameParent
     {
+        public SevensOut(string givenName, bool givenAuto, int givenTimer)
+        {
+            name = givenName;
+            auto = givenAuto;
+            timer = givenTimer;
+        }
         private int _total = 0;
         public int total 
         { 

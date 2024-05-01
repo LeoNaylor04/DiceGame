@@ -56,6 +56,8 @@ namespace DiceGame
                 {
                     Console.WriteLine($"The Average Score is {sevensOut[0] / sevensOut[1]}");
                 }
+                Console.WriteLine("");
+                Console.WriteLine("High Scores:");
                 OutputLearderboard("SevensOutLeaderboard.txt");
                 Console.WriteLine("");
                 
@@ -73,6 +75,8 @@ namespace DiceGame
                 {
                     Console.WriteLine($"The Average Score is {threeOrMore[0] / threeOrMore[1]}");
                 }
+                Console.WriteLine("");
+                Console.WriteLine("High Scores:");
                 OutputLearderboard("ThreeOrMoreLeaderboard.txt");
                 Console.WriteLine("");
             }
