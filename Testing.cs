@@ -2,15 +2,22 @@
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Reflection;
-
+/// <summary> Class where testing of the other classes occurs </summary>
 internal class Testing
 {
     private int _amount;
-    private int Amount {  get; set; }
-    public Testing(int amount)
+    private int Amount {  get; set; } //amount of tests to be ran
+    /// <summary> Constructor method called in Main() </summary>
+    /// <param> amount of tests to be ran </param>
+    public Testing(int amount) 
     {
-        Amount = amount;
+        Amount = amount; 
     }
+    /// <summary> runs a test on the die class </summary>
+    /// <remarks> 
+    /// Instantiates a die object, uses Debug.Assert to test
+    /// Ends testing after "Amount" trials
+    /// </remarks>
     private void DieTest()
     {
         Die testingDie = new Die();
@@ -24,6 +31,14 @@ internal class Testing
         Console.WriteLine($"{count} die tests ran with no failure");
         Console.WriteLine("");
     }
+    /// <summary> runs a test on the SevensOut class </summary>
+    /// <remarks> 
+    /// Instantiates a SevensOut object, uses Debug.Assert to test
+    /// Plays SevensOut as both players being computers with 0 time delay
+    /// Needs RoundScore to not be protected in the parent class for this to work
+    /// Needs PlayGame to be public for this to work
+    /// Ends testing after "Amount" trials
+    /// </remarks>
     private void SumTest()
     {
         SevensOut testingSevens = new SevensOut(true, 0);
@@ -37,6 +52,10 @@ internal class Testing
         Console.WriteLine($"{count} sum tests ran with no failure");
         Console.WriteLine("");
     }
+    /// <summary> Menu which is brought up for the user to run testing class methods </summary>
+    /// <remarks> 
+    /// Ran from Main(), Validates input so user is not booted back to Main()
+    /// </remarks>
     public void TestMenu()
     {
         string input = "";
@@ -75,6 +94,9 @@ internal class Testing
             TestLogRead.Close();
         }
     }
+    /// <summary> Adds the most recent test to the TestLog.txt file </summary>
+    /// <param> name of the test ran </param>
+    /// <remarks> amount of tests ran is known, file is appended </remarks>
     private void AddToFile(string testName)
     {
         string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("bin\\Debug\\net8.0", "TestLog.txt");

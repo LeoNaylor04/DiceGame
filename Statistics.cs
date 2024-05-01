@@ -3,12 +3,19 @@ using System.Reflection;
 
 namespace DiceGame
 {
+    /// <summary> Class for keeping the statistics side of Main() </summary>
+    /// <remarks> A lot of file handling </remarks>
     internal class Statistics
     {
         private int[] _threeOrMore = {0, 0};
-        public int[] threeOrMore { get { return _threeOrMore; } set { _threeOrMore = value; } }
+        public int[] threeOrMore { get { return _threeOrMore; } set { _threeOrMore = value; } } //these array have to not be null
         private int[] _sevensOut = {0, 0};
-        public int[] sevensOut { get { return _sevensOut; } set {_sevensOut=value; } }
+        public int[] sevensOut { get { return _sevensOut; } set { _sevensOut = value; } } //these arrays have to not be null
+        /// <summary> Opens the stats file to keep track as the user plays </summary>
+        /// <remarks> 
+        /// Ran at the very start of Main(), updates the fields with the correct stats
+        /// Should be mentioned that all files opened do not use specific paths so that they can be used on any machine
+        /// </remarks>
         public void OpenFile()
         {
             string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("bin\\Debug\\net8.0","Stats.txt");
@@ -24,9 +31,12 @@ namespace DiceGame
                 sevensOut[i] = int.Parse(statsArray[2+i]);
             }
             statsFile.Close();
-
-
         }
+        /// <summary> Allows the User to see all stats for all games </summary>
+        /// <remarks> 
+        /// Has a validated menu to make sure the user can see the stats they want
+        /// Error handles the average score if no games have been played
+        /// </remarks>
         public void OutputStats()
         {
             string gameName = "";
@@ -80,6 +90,8 @@ namespace DiceGame
                 Console.WriteLine("");
             }
         }
+        /// <summary> Updates the Stats.txt file with the data stored in the statistics fields </summary>
+        /// <remarks> Ran on the closing of Main() </remarks>
         public void SaveStats()
         {
             string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("bin\\Debug\\net8.0", "Stats.txt");
@@ -87,8 +99,14 @@ namespace DiceGame
             string fileLine = $"{threeOrMore[0]} {threeOrMore[1]} {sevensOut[0]} {sevensOut[1]}";
             statsFile.WriteLine(fileLine);
             statsFile.Close();
-
         }
+        /// <summary> Allows the winning score of a game to be added to a scoreboard along with the players name </summary>
+        /// <param> Needs the name of the scoreboard to be added to and the winning players score </param>
+        /// <remarks> 
+        /// Validates that the players name is one work to not break the data entry 
+        /// Saves all data in scoreboard as a temp array which the new score can be entered into preserving order
+        /// Arrays are then re-entered into the file and the file is closed
+        /// </remarks>
         public void AddToScoreboard(string boardName, int score)
         {
             string name = "";
@@ -136,6 +154,8 @@ namespace DiceGame
             }
             scoreboardWriting.Close();
         }
+        /// <summary> Shows the user the scoreboard of their choice </summary>
+        /// <param> Needs the scoreboards name </param>
         public void OutputScoreboard(string boardName)
         {
             string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("bin\\Debug\\net8.0", boardName);
@@ -146,12 +166,16 @@ namespace DiceGame
             }
             leaderboard.Close();
         }
+        /// <summary> Data to be added to corresponding files </summary>
+        /// <param> winning score </param>
         public void AddSevens(int score)
         {
             sevensOut[0] += score;
             sevensOut[1]++;
             AddToScoreboard("SevensOutScoreBoard.txt", score);
         }
+        /// <summary> Data to be added to corresponding files </summary>
+        /// <param> winning score </param>
         public void AddThree(int score)
         {
             threeOrMore[0] += score;

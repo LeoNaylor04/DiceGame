@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -9,14 +10,25 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace DiceGame
 {
+    /// <summary>
+    /// Class is a child of GameParent and has the IPlayable interface
+    /// Check GameParent for more info on some properties
+    ///</summary>
     internal class ThreeOrMore : GameParent, IPlayable
     {
-        public ThreeOrMore(bool Auto, int Timer) : base(Auto, Timer) { }
-
+        public ThreeOrMore(bool Auto, int Timer) : base(Auto, Timer) { } //inherits constructor
+        /// <summary>
+        /// Welcome message from GameParent overriden for ThreeOrMore
+        /// </summary>
         public override void WelcomeMessage()
         {
-            Console.WriteLine("Wlecome to Three or more!"); 
+            Console.WriteLine("Welcome to Three or more!");
+            Console.WriteLine("");
         }
+        /// <summary> Main function where the game is played </summary>
+        /// <remarks> Follows IPlayable interface, Executes all class methods </remarks>
+        /// <param> Shows if there is a computer opponent or not</param>
+        /// <returns> The winners score </returns>
         public int PlayGame(bool computer)
         {
             WelcomeMessage();
@@ -42,6 +54,10 @@ namespace DiceGame
                 }
             }
         }
+        /// <summary> The dice rolling part of the game </summary>
+        /// <remarks> Is either automated or asked for user interaction </remarks>
+        /// <param> The amount of die to be rolled as it does vary </param>
+        /// <returns> A tally of which faces were rolled </returns>
         private List<int> GameTurn(int dieAmount)
         {
             if (Auto) { Thread.Sleep(Timer); Console.WriteLine(""); }
@@ -55,6 +71,10 @@ namespace DiceGame
             }
             return tally;
         }
+        /// <summary> Counts the tally to check what score the player should gain </summary>
+        /// <param> Takes the tally as needs to count it </param>
+        /// <remarks> There is a user choice to roll 3 or 5 die if function repeats and computer will always roll 3 </remarks>
+        /// <returns> The score for the round OR Runs turn from the begining </returns>
         private int GameTurnTally(List<int> tally)
         {
             for (int i = 0; i < 6; i++)
@@ -78,24 +98,24 @@ namespace DiceGame
                     string rollChoice = Console.ReadLine();
                     if (rollChoice == "A")
                     {
-                        return GameTurnTally(GameTurn(5));
+                        return GameTurnTally(GameTurn(5)); //runs the game again
                     }
                     else if (rollChoice == "R")
                     {
                         List<int> newTally = GameTurn(3);
                         newTally[maximumIndex] = newTally[maximumIndex] + 2;
-                        return GameTurnTally(newTally);
+                        return GameTurnTally(newTally); //runs the game again with 3 random die and a pre-existing 2 of a kind
                     }
                     else
                     {
-                        Console.WriteLine("Roll fumbled");
+                        Console.WriteLine("Roll fumbled"); //decided it would be funnier to not validate this error
                     }
                 }
                 else
                 {
                     List<int> newTally = GameTurn(3);
                     newTally[maximumIndex] = newTally[maximumIndex] + 2;
-                    return GameTurnTally(newTally);
+                    return GameTurnTally(newTally); //runs the game again with 3 random die and a pre-existing 2 of a kind
                 }
             }
             return RoundScore;

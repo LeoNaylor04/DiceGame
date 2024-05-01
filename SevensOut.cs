@@ -7,13 +7,28 @@ using System.Threading.Tasks;
 
 namespace DiceGame
 {
-    internal class SevensOut : GameParent
+    /// <summary>
+    /// Class is a child of GameParent and has the IPlayable interface
+    /// Check GameParent for more info on some properties
+    ///</summary>
+    internal class SevensOut : GameParent, IPlayable
     {
-        public SevensOut(bool auto, int timer) : base(auto, timer) { }
+        public SevensOut(bool auto, int timer) : base(auto, timer) { } //inherits constructor
+        /// <summary>
+        /// Welcome message from GameParent overriden for SevensOut
+        /// </summary>
         public override void WelcomeMessage()
         {
             Console.WriteLine("Welcome to Sevens Out");
+            Console.WriteLine("");
         }
+        /// <summary> Main function where the game is played </summary>
+        /// <remarks> 
+        /// Follows IPlayable interface, Executes all class methods, Contains user interaction
+        /// Game is not played simultaneously so have to be two loops 
+        /// </remarks>
+        /// <param> Shows if there is a computer opponent or not</param>
+        /// <returns> The winners score </returns>
         public int PlayGame(bool computer)
         {
             WelcomeMessage();
@@ -60,6 +75,8 @@ namespace DiceGame
                 return Score2;
             }
         }
+        /// <summary> Contains the main functionality of the game </summary>
+        /// <returns> Score gained that round </returns>
         private int GameTurn()
         {
             List<int> roll = DiceRoll(2);

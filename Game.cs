@@ -8,8 +8,16 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace DiceGame
 {
+    /// <summary> Game class which is where the user interacts with all other classes </summary>
+    /// <remarks> Main() is in this class, all non-abstract classes are instaniated here, program also ends in this class </remarks>
     internal class Game
     {
+        /// <summary> Simple fucntion which asks user for menu choice </summary>
+        /// <remarks> 
+        /// Runs everytime the user returns to the main menu
+        /// No input validation as there is nothing to break 
+        /// </remarks>
+        /// <returns> anything entered into the console </returns>
         private static string ChooseGame()
         {
             Console.WriteLine("Would you like to choose");
@@ -21,6 +29,9 @@ namespace DiceGame
             Console.WriteLine("");
             return Console.ReadLine();
         }
+        /// <summary> Gathers user input whether the want to play against a computer or someone else </summary>
+        /// <remarks> validated input to not confuse user, runs each time a game is launched </remarks>
+        /// <returns>Whether player 2 is computer or not </returns>
         private static string ChooseOpponent()
         {
             string input = "";
@@ -35,6 +46,11 @@ namespace DiceGame
             }
             return input;
         }
+        /// <summary> If you cant tell by the name it is the Main() function of the whole program </summary>
+        /// <remarks>
+        /// Instantiates all non-abstract classes, only really calls functions as is Main()
+        /// Is in constant loop until user quits
+        /// </remarks>
         private static void Main(string[] args)
         {
             SevensOut sevensOutPlayer = new SevensOut(false, 1000);
