@@ -12,6 +12,8 @@ namespace DiceGame
         public SevensOut(bool auto, int timer) : base(auto, timer) { }
         public int PlayGame()
         {
+            Score1 = 0;
+            Score2 = 0;
             while (true)
             {
                 RoundScore = 0;
@@ -28,11 +30,11 @@ namespace DiceGame
             while (true)
             {
                 RoundScore = 0;
-                if (Auto) { Thread.Sleep(Timer); }
+                if (Auto) { Thread.Sleep(Timer); Console.WriteLine(""); }
                 else if (UserRolled()) { }
                 RoundScore = GameTurn();
-                Score1 += RoundScore;
-                Console.WriteLine($"Player 2's score is {Score1}");
+                Score2 += RoundScore;
+                Console.WriteLine($"Player 2's score is {Score2}");
                 if (RoundScore == 7)
                 {
                     Console.WriteLine($"Player 2 is out with a score of {Score2}");
@@ -58,7 +60,7 @@ namespace DiceGame
                 Console.WriteLine($"You rolled a {i}");
                 total += i;
             }
-            if (total - roll[0] == roll[1])
+            if (total - roll[0] == roll[0])
             {
                 Console.WriteLine("You rolled a double! ");
                 return total * 2;

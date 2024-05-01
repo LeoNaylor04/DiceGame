@@ -57,7 +57,7 @@ namespace DiceGame
                 }
                 Console.WriteLine("");
                 Console.WriteLine("High Scores:");
-                OutputScoreboard("SevensOutLeaderboard.txt");
+                OutputScoreboard("SevensOutScoreboard.txt");
                 Console.WriteLine("");
                 
             }
@@ -76,7 +76,7 @@ namespace DiceGame
                 }
                 Console.WriteLine("");
                 Console.WriteLine("High Scores:");
-                OutputScoreboard("ThreeOrMoreLeaderboard.txt");
+                OutputScoreboard("ThreeOrMoreScoreboard.txt");
                 Console.WriteLine("");
             }
         }
@@ -96,15 +96,11 @@ namespace DiceGame
             {
                 Console.WriteLine("Please enter your name for the Scoreboard");
                 name = Console.ReadLine();
-                if (name == "")
-                {
-                    Console.WriteLine("Please enter a name");
-                }
                 if (name.Split(" ").Length > 1)
                 {
                     Console.WriteLine("Name must be one word");
                 }
-                else { break; }
+                else if (name != "") { break; }
             }
             int i, j;
             string[] nameArray = new string[10];

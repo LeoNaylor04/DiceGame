@@ -40,6 +40,7 @@ namespace DiceGame
             SevensOut sevensOutPlayer = new SevensOut(false, 1000);
             ThreeOrMore threeOrMorePlayer = new ThreeOrMore(false, 1000);
             Statistics gameStatistics = new Statistics();
+            Testing gameTesting = new Testing(1000000);
             
             gameStatistics.OpenFile();
             while (true)
@@ -61,7 +62,7 @@ namespace DiceGame
                     string playerChoice = ChooseOpponent();
                     if (playerChoice == "C") { threeOrMorePlayer.Auto = true; }
                     else if (playerChoice == "P") { threeOrMorePlayer.Auto = false; }
-                    gameStatistics.AddThree(threeOrMorePlayer.PlayGame());
+                    gameStatistics.AddThree(threeOrMorePlayer.PlayGame(threeOrMorePlayer.Auto));
                 }
                 if (selection == "4")
                 {
@@ -70,6 +71,7 @@ namespace DiceGame
                 }
                 if (selection == "5")
                 {
+                    gameTesting.DieTest();
                 }
             }
         }
