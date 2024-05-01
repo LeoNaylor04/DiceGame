@@ -1,0 +1,6 @@
+TestName TestAmount
+DieTest 1000
+SumTest 10000
+SumTest 20
+DieTest 100000000
+SumTest 5000

@@ -9,7 +9,7 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace DiceGame
 {
-    internal class ThreeOrMore : GameParent
+    internal class ThreeOrMore : GameParent, IPlayable
     {
         public ThreeOrMore(bool Auto, int Timer) : base(Auto, Timer) { }
         public int PlayGame(bool computer)

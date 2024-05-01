@@ -40,8 +40,6 @@ namespace DiceGame
             SevensOut sevensOutPlayer = new SevensOut(false, 1000);
             ThreeOrMore threeOrMorePlayer = new ThreeOrMore(false, 1000);
             Statistics gameStatistics = new Statistics();
-            Testing gameTesting = new Testing(1000000);
-            
             gameStatistics.OpenFile();
             while (true)
             {
@@ -55,7 +53,7 @@ namespace DiceGame
                     string playerChoice = ChooseOpponent();
                     if (playerChoice == "C") { sevensOutPlayer.Auto=true; }
                     else if (playerChoice == "P") { sevensOutPlayer.Auto=false; }
-                    gameStatistics.AddSevens(sevensOutPlayer.PlayGame());
+                    gameStatistics.AddSevens(sevensOutPlayer.PlayGame(false));
                 }
                 if (selection == "3")
                 {
@@ -71,7 +69,17 @@ namespace DiceGame
                 }
                 if (selection == "5")
                 {
-                    gameTesting.DieTest();
+                    Console.WriteLine("How many tests would you like to run? (note more tests take longer)");
+                    try 
+                    { 
+                        int number = int.Parse(Console.ReadLine()); 
+                        if (number > 0)
+                        {
+                            Testing gameTesting = new Testing(number);
+                            gameTesting.TestMenu();
+                        }
+                    } 
+                    catch { Console.WriteLine("Entry must be a number"); }
                 }
             }
         }

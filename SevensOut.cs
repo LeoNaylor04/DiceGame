@@ -7,17 +7,22 @@ using System.Threading.Tasks;
 
 namespace DiceGame
 {
-    internal class SevensOut : GameParent
+    internal class SevensOut : GameParent, IPlayable
     {
         public SevensOut(bool auto, int timer) : base(auto, timer) { }
-        public int PlayGame()
+        public int PlayGame(bool computer)
         {
             Score1 = 0;
             Score2 = 0;
             while (true)
             {
                 RoundScore = 0;
-                if (UserRolled()) { }
+                if (computer)
+                {
+                    if (Auto) { Thread.Sleep(Timer); Console.WriteLine(""); }
+                    else if (UserRolled()) { }
+                }
+                else { UserRolled(); }
                 RoundScore = GameTurn();
                 Score1 += RoundScore;
                 Console.WriteLine($"Player 1's score is {Score1}");

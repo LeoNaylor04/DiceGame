@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DiceGame
 {
-    internal class GameParent
+    interface IPlayable
+    {
+        public int PlayGame(bool computer);
+    }
+    internal abstract class GameParent
     {
         private int _score1 = 0;
         private int _score2 = 0;
@@ -15,7 +19,7 @@ namespace DiceGame
         private int _timer;
         protected int Score1 { get; set; }
         protected int Score2 { get; set; }
-        protected int RoundScore { get; set; }
+        public int RoundScore { get; set; }
         public bool Auto { get; set; }
         protected int Timer { get; set; }
         public GameParent(bool auto, int timer)
