@@ -8,8 +8,16 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace DiceGame
 {
+    /// <summary> Game class which is where the user interacts with all other classes </summary>
+    /// <remarks> Main() is in this class, all non-abstract classes are instaniated here, program also ends in this class </remarks>
     internal class Game
     {
+        /// <summary> Simple fucntion which asks user for menu choice </summary>
+        /// <remarks> 
+        /// Runs everytime the user returns to the main menu
+        /// No input validation as there is nothing to break 
+        /// </remarks>
+        /// <returns> anything entered into the console </returns>
         private static string ChooseGame()
         {
             Console.WriteLine("Would you like to choose");
@@ -19,171 +27,36 @@ namespace DiceGame
             Console.WriteLine("4. Save and Exit");
             Console.WriteLine("5. Testing");
             Console.WriteLine("");
-            return Console.ReadLine(); 
-        }
-        private static string ChooseOpponent()
-        {
-            Console.WriteLine("Would you like to play against the computer (C) or another player (P) ?");
-            Console.WriteLine("");
             return Console.ReadLine();
         }
-        private static void SevensOutPlay(Statistics gameStatistics, SevensOut sevensOutPlayer, string player2)
+        /// <summary> Gathers user input whether the want to play against a computer or someone else </summary>
+        /// <remarks> validated input to not confuse user, runs each time a game is launched </remarks>
+        /// <returns>Whether player 2 is computer or not </returns>
+        private static string ChooseOpponent()
         {
-            Console.WriteLine("Player 1's Turn");
-            int playerScore1 = sevensOutPlayer.Roll(false, 1000);
-            Console.WriteLine($"Player 1 finished Sevens Out with a score of {playerScore1}");
-            Console.WriteLine("");
-            Console.WriteLine($"{player2}'s Turn");
-            int playerScore2 = 0;
-            if (player2 == "Computer")
-            {
-                playerScore2 = sevensOutPlayer.Roll(true, 1000);
-            }
-            else if (player2 == "Player 2")
-            {
-                playerScore2 = sevensOutPlayer.Roll(false, 1000);
-            }
-            Console.WriteLine($"{player2} finished Sevens Out with a score of {playerScore2}");
-            Console.WriteLine("");
-            if (playerScore1 > playerScore2)
-            {
-                SevensOutWinMessage(gameStatistics, "Player 1", playerScore1);
-            }
-            else if (playerScore2 > playerScore1)
-            {
-                SevensOutWinMessage(gameStatistics, player2, playerScore2);
-            }
-            else
-            {
-                Console.WriteLine("Tie Game");
-                gameStatistics.sevensOut[0] = gameStatistics.sevensOut[0] + playerScore1;
-                gameStatistics.sevensOut[1]++;
-                Console.WriteLine("");
-            }
-        }
-        private static void SevensOutWinMessage(Statistics gameStatistics, string identity, int score)
-        {
-            Console.WriteLine($"{identity} wins with a score of {score}!");
-            gameStatistics.sevensOut[0] = gameStatistics.sevensOut[0] + score;
-            gameStatistics.sevensOut[1]++;
-            if (identity != "Computer")
-            {
-                while (true)
-                {
-                    Console.WriteLine("Enter your name to be added to the leaderboard");
-                    string name = Console.ReadLine();
-                    if (name != "")
-                    {
-                        string[] nameArray = name.Split(" ");
-                        if (nameArray.Length != 1)
-                        {
-                            Console.WriteLine("Name must be one word");
-                        }
-                        else
-                        {
-                            gameStatistics.AddToLeaderboard("SevensOutLeaderboard.txt", name, score);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a name");
-                    }
-                }
-            }
-            Console.WriteLine("");
-        }
-        private static void ThreeOrMorePlay(Statistics gameStatistics, ThreeOrMore threeOrMorePlayer, string player2)
-        {
-            int playerScore2 = 0;
-            int playerScore1 = 0;
-            int tempScore = 0;
+            string input = "";
             while (true)
             {
-                Console.WriteLine("Player 1's Turn");
-                tempScore = threeOrMorePlayer.Play(false, 200);
-                Console.WriteLine($"Player 1 finished their turn with a score of {tempScore}");
-                playerScore1 += tempScore;
-                if (playerScore2 >= 20)
-                {
-                    break;
-                }
+                Console.WriteLine("Would you like to play against the computer (C) or another player (P) ?");
                 Console.WriteLine("");
-                Console.WriteLine($"{player2}'s Turn");
-
-                if (player2 == "Computer")
-                {
-                    tempScore = threeOrMorePlayer.Play(true, 200);
-                }
-                else if (player2 == "Player 2")
-                {
-                    tempScore = threeOrMorePlayer.Play(false, 200);
-                }
-                Console.WriteLine($"{player2} finished their turn with a score of {tempScore}");
-                playerScore2+= tempScore;
-                if (playerScore2 >= 20)
-                {
-                    break;
-                }
-                Console.WriteLine("");
-                Console.WriteLine($"Current score is Player 1: {playerScore1} {player2}:{playerScore2}");
-                Console.WriteLine("");
+                List<string> list = new() { "c", "C", "p", "P" };
+                input = Console.ReadLine();
+                if (list.Contains(input)) { break; }
+                else { Console.WriteLine("Invalid input"); }
             }
-            if (playerScore1 > playerScore2)
-            {
-                ThreeOrMoreWinMessage(gameStatistics, "Player 1", playerScore1);
-            }
-            else if (playerScore2 > playerScore1)
-            {
-                ThreeOrMoreWinMessage(gameStatistics, player2, playerScore2);
-            }
-            else
-            {
-                Console.WriteLine("Tie Game!");
-                gameStatistics.threeOrMore[0] = gameStatistics.threeOrMore[0] + playerScore1;
-                gameStatistics.threeOrMore[1]++;
-                Console.WriteLine("");
-            }
+            return input;
         }
-        private static void ThreeOrMoreWinMessage(Statistics gameStatistics, string identity, int score)
-        {
-            Console.WriteLine($"{identity} wins with a score of {score}!");
-            gameStatistics.threeOrMore[0] = gameStatistics.threeOrMore[0] + score;
-            gameStatistics.threeOrMore[1]++;
-            if (identity != "Computer")
-            {
-                while (true)
-                {
-                    Console.WriteLine("Enter your name to be added to the leaderboard");
-                    string name = Console.ReadLine();
-                    if (name != "")
-                    {
-                        string[] nameArray = name.Split(" ");
-                        if (nameArray.Length != 1)
-                        {
-                            Console.WriteLine("Name must be one word");
-                        }
-                        else
-                        {
-                            gameStatistics.AddToLeaderboard("ThreeOrMoreLeaderboard.txt", name, score);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a name");
-                    }
-                }
-            }
-            Console.WriteLine("");
-        }
+        /// <summary> If you cant tell by the name it is the Main() function of the whole program </summary>
+        /// <remarks>
+        /// Instantiates all non-abstract classes, only really calls functions as is Main()
+        /// Is in constant loop until user quits
+        /// </remarks>
         private static void Main(string[] args)
         {
+            SevensOut sevensOutPlayer = new SevensOut(false, 1000);
+            ThreeOrMore threeOrMorePlayer = new ThreeOrMore(false, 1000);
             Statistics gameStatistics = new Statistics();
             gameStatistics.OpenFile();
-            SevensOut sevensOutPlayer = new SevensOut();
-            ThreeOrMore threeOrMorePlayer = new ThreeOrMore();
-            Testing gameTesting = new Testing();
             while (true)
             {
                 string selection = ChooseGame();
@@ -194,26 +67,16 @@ namespace DiceGame
                 if (selection == "2")
                 {
                     string playerChoice = ChooseOpponent();
-                    if (playerChoice == "C")
-                    {
-                        SevensOutPlay(gameStatistics, sevensOutPlayer, "Computer");
-                    }
-                    else if (playerChoice == "P")
-                    {
-                        SevensOutPlay(gameStatistics, sevensOutPlayer, "Player 2");
-                    }
+                    if (playerChoice == "C") { sevensOutPlayer.Auto=true; }
+                    else if (playerChoice == "P") { sevensOutPlayer.Auto=false; }
+                    gameStatistics.AddSevens(sevensOutPlayer.PlayGame(false));
                 }
                 if (selection == "3")
                 {
                     string playerChoice = ChooseOpponent();
-                    if (playerChoice == "C")
-                    {
-                        ThreeOrMorePlay(gameStatistics, threeOrMorePlayer, "Computer");
-                    }
-                    else if (playerChoice == "P")
-                    {
-                        ThreeOrMorePlay(gameStatistics, threeOrMorePlayer, "Player 2");
-                    }
+                    if (playerChoice == "C") { threeOrMorePlayer.Auto = true; }
+                    else if (playerChoice == "P") { threeOrMorePlayer.Auto = false; }
+                    gameStatistics.AddThree(threeOrMorePlayer.PlayGame(threeOrMorePlayer.Auto));
                 }
                 if (selection == "4")
                 {
@@ -222,8 +85,17 @@ namespace DiceGame
                 }
                 if (selection == "5")
                 {
-                    gameTesting.TestSevensOut(1000);
-                    gameTesting.TestThreeOrMore(1000);
+                    Console.WriteLine("How many tests would you like to run? (note more tests take longer)");
+                    try 
+                    { 
+                        int number = int.Parse(Console.ReadLine()); 
+                        if (number > 0)
+                        {
+                            Testing gameTesting = new Testing(number);
+                            gameTesting.TestMenu();
+                        }
+                    } 
+                    catch { Console.WriteLine("Entry must be a number"); }
                 }
             }
         }
